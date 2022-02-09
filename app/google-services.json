@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "236933503633",
+    "firebase_url": "https://workout-f59e7.firebaseio.com",
+    "project_id": "workout-f59e7",
+    "storage_bucket": "workout-f59e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236933503633:android:3907b4b14bf5ed4eef7d30",
+        "android_client_info": {
+          "package_name": "com.inocreativeStudio.IncreaseHeightWorkout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236933503633-4vfnd000hq5ktsgjmgqkbe1pm1634e0o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inocreativeStudio.IncreaseHeightWorkout",
+            "certificate_hash": "6f449e692c3337dd1e1d070aef34ae0b5081e240"
+          }
+        },
+        {
+          "client_id": "236933503633-74qqkkrlu4080apf5niq43ebnqhhh6ci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inocreativeStudio.IncreaseHeightWorkout",
+            "certificate_hash": "6cb6ab4596c35377bd9d09070b3c3911e1969eb1"
+          }
+        },
+        {
+          "client_id": "236933503633-582plth8q2ifglpbv5s4du317hsagdb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYmJqXeAhhPlDCYFKOxk-anwtfjn7FEqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236933503633-582plth8q2ifglpbv5s4du317hsagdb6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236933503633-m1rgma3ptip7qf8ceg38mi7trtohnd9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inocreative.workout"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236933503633:android:7014581c2bdf37d5ef7d30",
+        "android_client_info": {
+          "package_name": "com.workout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236933503633-me5sbh6end85nvvni3j3re1vhep9o8sn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.workout",
+            "certificate_hash": "6f449e692c3337dd1e1d070aef34ae0b5081e240"
+          }
+        },
+        {
+          "client_id": "236933503633-582plth8q2ifglpbv5s4du317hsagdb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYmJqXeAhhPlDCYFKOxk-anwtfjn7FEqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236933503633-582plth8q2ifglpbv5s4du317hsagdb6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236933503633-m1rgma3ptip7qf8ceg38mi7trtohnd9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inocreative.workout"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
