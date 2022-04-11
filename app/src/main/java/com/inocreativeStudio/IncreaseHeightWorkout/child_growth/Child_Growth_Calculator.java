@@ -25,7 +25,10 @@ import com.huawei.hms.ads.AdParam;
 import com.huawei.hms.ads.BannerAdSize;
 import com.huawei.hms.ads.banner.BannerView;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
+import com.inocreativeStudio.IncreaseHeightWorkout.body_fat.Body_Fat_Chart;
+import com.inocreativeStudio.IncreaseHeightWorkout.body_fat.Bodyfat_Result;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -771,71 +774,40 @@ public class Child_Growth_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            Intent intent = new Intent(this, Child_growth_result.class);
-            intent.putExtra("result", this.putext_val);
-            intent.putExtra("age", String.valueOf(this.months));
-            startActivity(intent);
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                Intent intent = new Intent(Child_Growth_Calculator.this, Child_growth_result.class);
+                intent.putExtra("result", Child_Growth_Calculator.this.putext_val);
+                intent.putExtra("age", String.valueOf(Child_Growth_Calculator.this.months));
+                startActivity(intent);
             }
-            Intent intent2 = new Intent(this, Child_growth_result.class);
-            intent2.putExtra("result", this.putext_val);
-            intent2.putExtra("age", String.valueOf(this.months));
-            startActivity(intent2);
-        } else {
-            MyApplication.interstitial.show();
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            Intent intent = new Intent(this, Child_growth_result.class);
+//            intent.putExtra("result", this.putext_val);
+//            intent.putExtra("age", String.valueOf(this.months));
+//            startActivity(intent);
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            Intent intent2 = new Intent(this, Child_growth_result.class);
+//            intent2.putExtra("result", this.putext_val);
+//            intent2.putExtra("age", String.valueOf(this.months));
+//            startActivity(intent2);
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Intent intent = new Intent(Child_Growth_Calculator.this, Child_growth_result.class);
-                    intent.putExtra("result", Child_Growth_Calculator.this.putext_val);
-                    intent.putExtra("age", String.valueOf(Child_Growth_Calculator.this.months));
-                    Child_Growth_Calculator.this.startActivity(intent);
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
 
     public void onBackPressed() {
 //        this.adView.setVisibility(8);

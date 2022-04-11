@@ -20,6 +20,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -95,17 +96,17 @@ public class Smokincost_Calculator extends AppCompatActivity {
                     Smokincost_Calculator.this.no_of_cig_perday = Double.valueOf(Double.parseDouble(Smokincost_Calculator.this.et_cig_smoked.getText().toString().trim()));
                     Smokincost_Calculator.this.no_of_cig_inpack = Double.valueOf(Double.parseDouble(Smokincost_Calculator.this.et_cig_inpack.getText().toString().trim()));
                     Smokincost_Calculator.this.price_inrs = Double.valueOf(Double.parseDouble(Smokincost_Calculator.this.et_cig_price.getText().toString().trim()));
-                    int random = ((int) (Math.random() * 2.0d)) + 1;
-                    PrintStream printStream = System.out;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("random_number==>");
-                    sb.append(random);
-                    printStream.println(sb.toString());
-                    if (random == 2) {
+//                    int random = ((int) (Math.random() * 2.0d)) + 1;
+//                    PrintStream printStream = System.out;
+//                    StringBuilder sb = new StringBuilder();
+//                    sb.append("random_number==>");
+//                    sb.append(random);
+//                    printStream.println(sb.toString());
+//                    if (random == 2) {
                         Smokincost_Calculator.this.showIntertitial();
-                    } else {
-                        Smokincost_Calculator.this.calculate_smoking_cost();
-                    }
+//                    } else {
+//                        Smokincost_Calculator.this.calculate_smoking_cost();
+//                    }
                 }
             }
         });
@@ -148,53 +149,21 @@ public class Smokincost_Calculator extends AppCompatActivity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            calculate_smoking_cost();
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                calculate_smoking_cost();
             }
-            calculate_smoking_cost();
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Smokincost_Calculator.this.calculate_smoking_cost();
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            calculate_smoking_cost();
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//            }
+//            calculate_smoking_cost();
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

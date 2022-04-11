@@ -15,6 +15,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -93,17 +94,17 @@ public class Calories_Burn_Result extends Activity {
         }
         this.tv_calburnchart.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                int random = ((int) (Math.random() * 2.0d)) + 1;
-                PrintStream printStream = System.out;
-                StringBuilder sb = new StringBuilder();
-                sb.append("random_number==>");
-                sb.append(random);
-                printStream.println(sb.toString());
-                if (random == 2) {
+                //int random = ((int) (Math.random() * 2.0d)) + 1;
+                //PrintStream printStream = System.out;
+                //StringBuilder sb = new StringBuilder();
+                //sb.append("random_number==>");
+               // sb.append(random);
+                //printStream.println(sb.toString());
+                //if (random == 2) {
                     Calories_Burn_Result.this.showIntertitial();
-                    return;
-                }
-                Calories_Burn_Result.this.startActivity(new Intent(Calories_Burn_Result.this, Calories_Burn_Chart.class));
+                //    return;
+                //}
+                //Calories_Burn_Result.this.startActivity(new Intent(Calories_Burn_Result.this, Calories_Burn_Chart.class));
             }
         });
         this.iv_close.setOnClickListener(new OnClickListener() {
@@ -113,61 +114,29 @@ public class Calories_Burn_Result extends Activity {
         });
     }
 
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Calories_Burn_Result.this.startActivity(new Intent(Calories_Burn_Result.this, Calories_Burn_Chart.class));
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
-
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            startActivity(new Intent(this, Calories_Burn_Chart.class));
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                startActivity(new Intent(Calories_Burn_Result.this, Calories_Burn_Chart.class));
             }
-            startActivity(new Intent(this, Calories_Burn_Chart.class));
-        } else {
-            MyApplication.interstitial.show();
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            startActivity(new Intent(this, Calories_Burn_Chart.class));
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            startActivity(new Intent(this, Calories_Burn_Chart.class));
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

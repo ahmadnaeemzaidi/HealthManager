@@ -27,7 +27,10 @@ import com.huawei.hms.ads.AdParam;
 import com.huawei.hms.ads.BannerAdSize;
 import com.huawei.hms.ads.banner.BannerView;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
+import com.inocreativeStudio.IncreaseHeightWorkout.blood_donation.Blood_Donation_Calculator;
+import com.inocreativeStudio.IncreaseHeightWorkout.blood_donation.Blood_Donation_Result;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -342,68 +345,34 @@ public class Alcohol_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            Intent intent = new Intent(this, Alcohol_Result.class);
-            intent.putExtra("BACinPer", this.BACinPer);
-            startActivity(intent);
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                Intent intent2 = new Intent(Alcohol_Calculator.this, Alcohol_Result.class);
+                intent2.putExtra("BACinPer", Alcohol_Calculator.this.BACinPer);
+                startActivity(intent2);
             }
-            Intent intent2 = new Intent(this, Alcohol_Result.class);
-            intent2.putExtra("BACinPer", this.BACinPer);
-            startActivity(intent2);
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Intent intent = new Intent(Alcohol_Calculator.this, Alcohol_Result.class);
-                    intent.putExtra("BACinPer", Alcohol_Calculator.this.BACinPer);
-                    Alcohol_Calculator.this.startActivity(intent);
-                }
-
-                @Override
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            Intent intent = new Intent(this, Alcohol_Result.class);
+//            intent.putExtra("BACinPer", this.BACinPer);
+//            startActivity(intent);
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            Intent intent2 = new Intent(this, Alcohol_Result.class);
+//            intent2.putExtra("BACinPer", this.BACinPer);
+//            startActivity(intent2);
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

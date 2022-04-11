@@ -28,6 +28,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -171,17 +172,17 @@ public class Daily_Calories_Intake_Calculator extends Activity {
                     }
                     Daily_Calories_Intake_Calculator.this.age = Integer.parseInt(Daily_Calories_Intake_Calculator.this.et_age.getText().toString());
                     Daily_Calories_Intake_Calculator.this.gender = Daily_Calories_Intake_Calculator.this.tv_gender.getText().toString().trim();
-                    int random = ((int) (Math.random() * 2.0d)) + 1;
-                    PrintStream printStream = System.out;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("random_number==>");
-                    sb.append(random);
-                    printStream.println(sb.toString());
-                    if (random == 2) {
+                   // int random = ((int) (Math.random() * 2.0d)) + 1;
+                   // PrintStream printStream = System.out;
+                    //StringBuilder sb = new StringBuilder();
+                    //sb.append("random_number==>");
+                    //sb.append(random);
+                   // printStream.println(sb.toString());
+                   // if (random == 2) {
                         Daily_Calories_Intake_Calculator.this.showIntertitial();
-                    } else {
-                        Daily_Calories_Intake_Calculator.this.calculate();
-                    }
+                   // } else {
+                   //     Daily_Calories_Intake_Calculator.this.calculate();
+                   // }
                 }
             }
         });
@@ -364,62 +365,30 @@ public class Daily_Calories_Intake_Calculator extends Activity {
         return true;
     }
 
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Daily_Calories_Intake_Calculator.this.calculate();
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
-
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            calculate();
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                calculate();
             }
-            calculate();
-        } else {
-            MyApplication.interstitial.show();
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            calculate();
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            calculate();
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 
     public void onBackPressed() {

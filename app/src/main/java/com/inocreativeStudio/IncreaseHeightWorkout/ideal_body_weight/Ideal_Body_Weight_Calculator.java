@@ -24,6 +24,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -139,17 +140,17 @@ public class Ideal_Body_Weight_Calculator extends Activity {
                 Ideal_Body_Weight_Calculator.this.gender = Ideal_Body_Weight_Calculator.this.tv_gender.getText().toString().trim();
                 Ideal_Body_Weight_Calculator.this.body_ftrame = Ideal_Body_Weight_Calculator.this.tv_body_frame.getText().toString();
                 Ideal_Body_Weight_Calculator.this.height_unit = Ideal_Body_Weight_Calculator.this.tv_heightunit.getText().toString();
-                int random = ((int) (Math.random() * 2.0d)) + 1;
-                PrintStream printStream = System.out;
-                StringBuilder sb = new StringBuilder();
-                sb.append("random_number==>");
-                sb.append(random);
-                printStream.println(sb.toString());
-                if (random == 2) {
+                //int random = ((int) (Math.random() * 2.0d)) + 1;
+                //PrintStream printStream = System.out;
+                //StringBuilder sb = new StringBuilder();
+                //sb.append("random_number==>");
+               // sb.append(random);
+               // printStream.println(sb.toString());
+               // if (random == 2) {
                     Ideal_Body_Weight_Calculator.this.showIntertitial();
-                } else {
-                    Ideal_Body_Weight_Calculator.this.calculate();
-                }
+               // } else {
+               //     Ideal_Body_Weight_Calculator.this.calculate();
+               // }
             }
         });
         this.iv_back.setOnClickListener(new OnClickListener() {
@@ -342,61 +343,29 @@ public class Ideal_Body_Weight_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            calculate();
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            calculate();
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            calculate();
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                calculate();
             }
-            calculate();
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Ideal_Body_Weight_Calculator.this.calculate();
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
     }
 
     public void onBackPressed() {

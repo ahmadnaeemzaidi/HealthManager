@@ -115,45 +115,6 @@ public class Home_page extends Fragment {
         return inflate;
 
     }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-//                    Home_page.this.startActivity(new Intent(Home_page.this, About_Us.class));
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                }
-            });
-        }
-    }
-
-
-    public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-//            startActivity(new Intent(this, About_Us.class));
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-            }
-//            startActivity(new Intent(this, About_Us.class));
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
     public void onBackPressed() {
         if (this.doubleBackToExitPressedOnce) {
             int random = ((int) (Math.random() * 3.0d)) + 1;

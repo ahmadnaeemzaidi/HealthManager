@@ -25,6 +25,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -108,19 +109,19 @@ public class Sugar_calculator extends Activity {
                 } else {
                     Sugar_calculator.this.calculate_m2();
                 }
-                int random = ((int) (Math.random() * 2.0d)) + 1;
-                PrintStream printStream = System.out;
-                StringBuilder sb = new StringBuilder();
-                sb.append("random_number==>");
-                sb.append(random);
-                printStream.println(sb.toString());
-                if (random == 2) {
+//                int random = ((int) (Math.random() * 2.0d)) + 1;
+//                PrintStream printStream = System.out;
+//                StringBuilder sb = new StringBuilder();
+//                sb.append("random_number==>");
+//                sb.append(random);
+//                printStream.println(sb.toString());
+//                if (random == 2) {
                     Sugar_calculator.this.showIntertitial();
-                    return;
-                }
-                Intent intent = new Intent(Sugar_calculator.this, Sugar_Result.class);
-                intent.putExtra("final_bloodsugar_val", Sugar_calculator.this.final_bloodsugar_val);
-                Sugar_calculator.this.startActivity(intent);
+//                    return;
+//                }
+//                Intent intent = new Intent(Sugar_calculator.this, Sugar_Result.class);
+//                intent.putExtra("final_bloodsugar_val", Sugar_calculator.this.final_bloodsugar_val);
+//                Sugar_calculator.this.startActivity(intent);
             }
         });
     }
@@ -182,66 +183,35 @@ public class Sugar_calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            Intent intent = new Intent(this, Sugar_Result.class);
-            intent.putExtra("final_bloodsugar_val", this.final_bloodsugar_val);
-            startActivity(intent);
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                Intent intent2 = new Intent(Sugar_calculator.this, Sugar_Result.class);
+                intent2.putExtra("final_bloodsugar_val", Sugar_calculator.this.final_bloodsugar_val);
+                startActivity(intent2);
             }
-            Intent intent2 = new Intent(this, Sugar_Result.class);
-            intent2.putExtra("final_bloodsugar_val", this.final_bloodsugar_val);
-            startActivity(intent2);
-        } else {
-            MyApplication.interstitial.show();
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            Intent intent = new Intent(this, Sugar_Result.class);
+//            intent.putExtra("final_bloodsugar_val", this.final_bloodsugar_val);
+//            startActivity(intent);
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            Intent intent2 = new Intent(this, Sugar_Result.class);
+//            intent2.putExtra("final_bloodsugar_val", this.final_bloodsugar_val);
+//            startActivity(intent2);
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Intent intent = new Intent(Sugar_calculator.this, Sugar_Result.class);
-                    intent.putExtra("final_bloodsugar_val", Sugar_calculator.this.final_bloodsugar_val);
-                    Sugar_calculator.this.startActivity(intent);
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
 }

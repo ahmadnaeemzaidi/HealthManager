@@ -25,6 +25,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -143,17 +144,17 @@ public class Waist_Hip_Ratio_Calculator extends Activity {
                     sb2.append("inserted_height");
                     sb2.append(Waist_Hip_Ratio_Calculator.this.inserted_hip);
                     Log.d("inserted_height", sb2.toString());
-                    int random = ((int) (Math.random() * 2.0d)) + 1;
-                    PrintStream printStream = System.out;
-                    StringBuilder sb3 = new StringBuilder();
-                    sb3.append("random_number==>");
-                    sb3.append(random);
-                    printStream.println(sb3.toString());
-                    if (random == 2) {
+                    //int random = ((int) (Math.random() * 2.0d)) + 1;
+                   // PrintStream printStream = System.out;
+                    //StringBuilder sb3 = new StringBuilder();
+                    //sb3.append("random_number==>");
+                    //sb3.append(random);
+                    //printStream.println(sb3.toString());
+                    //if (random == 2) {
                         Waist_Hip_Ratio_Calculator.this.showIntertitial();
-                    } else {
-                        Waist_Hip_Ratio_Calculator.this.calculate();
-                    }
+                    //} else {
+                    //    Waist_Hip_Ratio_Calculator.this.calculate();
+                    //}
                 }
             }
         });
@@ -299,60 +300,28 @@ public class Waist_Hip_Ratio_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            calculate();
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                calculate();
             }
-            calculate();
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Waist_Hip_Ratio_Calculator.this.calculate();
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            calculate();
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            calculate();
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

@@ -18,6 +18,7 @@ import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.blood_donation.Blood_Donation_Result;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.DateUtil;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
@@ -98,21 +99,21 @@ public class Pregnancy_Due_Date_Calculator extends Activity {
         get_eligieble_date(this.todays_date);
         this.tv_search_date.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                int random = ((int) (Math.random() * 2.0d)) + 1;
-                PrintStream printStream = System.out;
-                StringBuilder sb = new StringBuilder();
-                sb.append("random_number==>");
-                sb.append(random);
-                printStream.println(sb.toString());
-                if (random == 2) {
+//                int random = ((int) (Math.random() * 2.0d)) + 1;
+//                PrintStream printStream = System.out;
+//                StringBuilder sb = new StringBuilder();
+//                sb.append("random_number==>");
+//                sb.append(random);
+//                printStream.println(sb.toString());
+//                if (random == 2) {
                     Pregnancy_Due_Date_Calculator.this.showIntertitial();
-                    return;
-                }
-                Intent intent = new Intent(Pregnancy_Due_Date_Calculator.this, Blood_Donation_Result.class);
-                intent.putExtra("prevdate", Pregnancy_Due_Date_Calculator.this.prev_date);
-                intent.putExtra("nextdate", Pregnancy_Due_Date_Calculator.this.eligieble_date);
-                intent.putExtra("flag", "1");
-                Pregnancy_Due_Date_Calculator.this.startActivity(intent);
+//                    return;
+//                }
+//                Intent intent = new Intent(Pregnancy_Due_Date_Calculator.this, Blood_Donation_Result.class);
+//                intent.putExtra("prevdate", Pregnancy_Due_Date_Calculator.this.prev_date);
+//                intent.putExtra("nextdate", Pregnancy_Due_Date_Calculator.this.eligieble_date);
+//                intent.putExtra("flag", "1");
+//                Pregnancy_Due_Date_Calculator.this.startActivity(intent);
             }
         });
         this.mFCalendarView.setOnCalendarViewListener(new onSNPCalendarViewListener() {
@@ -180,72 +181,41 @@ public class Pregnancy_Due_Date_Calculator extends Activity {
     }
 
 
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Intent intent = new Intent(Pregnancy_Due_Date_Calculator.this, Blood_Donation_Result.class);
-                    intent.putExtra("prevdate", Pregnancy_Due_Date_Calculator.this.prev_date);
-                    intent.putExtra("nextdate", Pregnancy_Due_Date_Calculator.this.eligieble_date);
-                    intent.putExtra("flag", "1");
-                    Pregnancy_Due_Date_Calculator.this.startActivity(intent);
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
-
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            Intent intent = new Intent(this, Blood_Donation_Result.class);
-            intent.putExtra("prevdate", this.prev_date);
-            intent.putExtra("nextdate", this.eligieble_date);
-            intent.putExtra("flag", "1");
-            startActivity(intent);
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                Intent intent = new Intent(Pregnancy_Due_Date_Calculator.this, Blood_Donation_Result.class);
+                intent.putExtra("prevdate", Pregnancy_Due_Date_Calculator.this.prev_date);
+                intent.putExtra("nextdate", Pregnancy_Due_Date_Calculator.this.eligieble_date);
+                intent.putExtra("flag", "1");
+                startActivity(intent);
             }
-            Intent intent2 = new Intent(this, Blood_Donation_Result.class);
-            intent2.putExtra("prevdate", this.prev_date);
-            intent2.putExtra("nextdate", this.eligieble_date);
-            intent2.putExtra("flag", "1");
-            startActivity(intent2);
-        } else {
-            MyApplication.interstitial.show();
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            Intent intent = new Intent(this, Blood_Donation_Result.class);
+//            intent.putExtra("prevdate", this.prev_date);
+//            intent.putExtra("nextdate", this.eligieble_date);
+//            intent.putExtra("flag", "1");
+//            startActivity(intent);
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            Intent intent2 = new Intent(this, Blood_Donation_Result.class);
+//            intent2.putExtra("prevdate", this.prev_date);
+//            intent2.putExtra("nextdate", this.eligieble_date);
+//            intent2.putExtra("flag", "1");
+//            startActivity(intent2);
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

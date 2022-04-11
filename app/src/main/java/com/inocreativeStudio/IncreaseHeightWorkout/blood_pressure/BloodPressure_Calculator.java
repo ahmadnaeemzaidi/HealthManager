@@ -20,6 +20,7 @@ import com.huawei.hms.ads.BannerAdSize;
 import com.huawei.hms.ads.banner.BannerView;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -92,65 +93,25 @@ public class BloodPressure_Calculator extends Activity {
                 } else {
                     BloodPressure_Calculator.this.systolic_val = BloodPressure_Calculator.this.et_systolic_pressure.getText().toString().trim();
                     BloodPressure_Calculator.this.diastolic_val = BloodPressure_Calculator.this.et_diastolic_pressure.getText().toString().trim();
-                    int random = ((int) (Math.random() * 2.0d)) + 1;
-                    PrintStream printStream = System.out;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("random_number==>");
-                    sb.append(random);
-                    printStream.println(sb.toString());
-                    if (random == 2) {
+                    //int random = ((int) (Math.random() * 2.0d)) + 1;
+                    //PrintStream printStream = System.out;
+                    //StringBuilder sb = new StringBuilder();
+                    //sb.append("random_number==>");
+                    //sb.append(random);
+                    //printStream.println(sb.toString());
+                   // if (random == 2) {
                         BloodPressure_Calculator.this.showIntertitial();
-                        return;
-                    }
-                    Intent intent = new Intent(BloodPressure_Calculator.this, BloodPressure_Result.class);
-                    intent.putExtra("systolic_val", Float.parseFloat(BloodPressure_Calculator.this.systolic_val));
-                    intent.putExtra("diastolic_val", Float.parseFloat(BloodPressure_Calculator.this.diastolic_val));
-                    BloodPressure_Calculator.this.startActivity(intent);
+                    //    return;
+                    //}
+//                    Intent intent = new Intent(BloodPressure_Calculator.this, BloodPressure_Result.class);
+//                    intent.putExtra("systolic_val", Float.parseFloat(BloodPressure_Calculator.this.systolic_val));
+//                    intent.putExtra("diastolic_val", Float.parseFloat(BloodPressure_Calculator.this.diastolic_val));
+//                    BloodPressure_Calculator.this.startActivity(intent);
                 }
             }
         });
     }
 
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Intent intent = new Intent(BloodPressure_Calculator.this, BloodPressure_Result.class);
-                    intent.putExtra("systolic_val", BloodPressure_Calculator.this.systolic_val);
-                    intent.putExtra("diastolic_val", BloodPressure_Calculator.this.diastolic_val);
-                    BloodPressure_Calculator.this.startActivity(intent);
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() != 16908332) {
@@ -166,28 +127,37 @@ public class BloodPressure_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            Intent intent = new Intent(this, BloodPressure_Result.class);
-            intent.putExtra("systolic_val", this.systolic_val);
-            intent.putExtra("diastolic_val", this.diastolic_val);
-            startActivity(intent);
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                Intent intent = new Intent(BloodPressure_Calculator.this, BloodPressure_Result.class);
+                intent.putExtra("systolic_val", BloodPressure_Calculator.this.systolic_val);
+                intent.putExtra("diastolic_val", BloodPressure_Calculator.this.diastolic_val);
+                startActivity(intent);
             }
-            Intent intent2 = new Intent(this, BloodPressure_Result.class);
-            intent2.putExtra("systolic_val", this.systolic_val);
-            intent2.putExtra("diastolic_val", this.diastolic_val);
-            startActivity(intent2);
-        } else {
-            MyApplication.interstitial.show();
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            Intent intent = new Intent(this, BloodPressure_Result.class);
+//            intent.putExtra("systolic_val", this.systolic_val);
+//            intent.putExtra("diastolic_val", this.diastolic_val);
+//            startActivity(intent);
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            Intent intent2 = new Intent(this, BloodPressure_Result.class);
+//            intent2.putExtra("systolic_val", this.systolic_val);
+//            intent2.putExtra("diastolic_val", this.diastolic_val);
+//            startActivity(intent2);
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

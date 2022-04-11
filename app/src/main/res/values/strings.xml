@@ -1,19 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Home Workout - Step Tracker</string>
+    <string name="app_name">Workout-Health &amp; Fitness</string>
 
 
     <string name="admob_app_id">ca-app-pub-5492779721410962~1053862802</string>
 
 
-<!--    <string name="huawei_banner_add">testw6vs28auh3</string>-->
-<!--    <string name="huawei_native_add">testy63txaom86</string>-->
-<!--    <string name="huawei_interstitial_add">testb4znbuh3n2</string>-->
+    <string name="huawei_banner_add">testw6vs28auh3</string>
+    <string name="huawei_native_add">testy63txaom86</string>
+    <string name="huawei_interstitial_add">testb4znbuh3n2</string>
+    <string name="unityAdId">4608136</string>
 
     // Live Tests
 
-    <string name="huawei_banner_add">f4xyn3qx2k</string>
-    <string name="huawei_native_add">u2nfn51h94</string>
-    <string name="huawei_interstitial_add">u3hdh75a9b</string>
+<!--    <string name="huawei_banner_add">f4xyn3qx2k</string>-->
+<!--    <string name="h uawei_native_add">u2nfn51h94</string>-->
+<!--    <string name="huawei_interstitial_add">u3hdh75a9b</string >-->
 
     <string name="ad_flag">Ad</string>
 

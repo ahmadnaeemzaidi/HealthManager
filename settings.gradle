@@ -1,2 +1,3 @@
+include ':unity-ads'
 rootProject.name='Health Manager'
 include ':app'

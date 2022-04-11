@@ -24,6 +24,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.DateUtil;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
@@ -119,22 +120,22 @@ public class Menstrual_Ovulation_Calculator extends Activity {
                     Menstrual_Ovulation_Calculator.this.calculate_nextdate(Menstrual_Ovulation_Calculator.this.curr_date);
                     Menstrual_Ovulation_Calculator.this.calculate_nextdate1(Menstrual_Ovulation_Calculator.this.curr_date);
                     Menstrual_Ovulation_Calculator.this.calculate_nextdate2(Menstrual_Ovulation_Calculator.this.curr_date);
-                    int random = ((int) (Math.random() * 2.0d)) + 1;
-                    PrintStream printStream = System.out;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("random_number==>");
-                    sb.append(random);
-                    printStream.println(sb.toString());
-                    if (random == 2) {
+//                    int random = ((int) (Math.random() * 2.0d)) + 1;
+//                    PrintStream printStream = System.out;
+//                    StringBuilder sb = new StringBuilder();
+//                    sb.append("random_number==>");
+//                    sb.append(random);
+//                    printStream.println(sb.toString());
+//                    if (random == 2) {
                         Menstrual_Ovulation_Calculator.this.showIntertitial();
-                        return;
-                    }
-                    Intent intent = new Intent(Menstrual_Ovulation_Calculator.this, Menstrual_and_ovulation_Result.class);
-                    intent.putExtra("nextdate_menstrual", Menstrual_Ovulation_Calculator.this.nextdate_menstrual);
-                    intent.putExtra("nextdate1_ovulation", Menstrual_Ovulation_Calculator.this.nextdate1_ovulation);
-                    intent.putExtra("nextdate2_ovulation", Menstrual_Ovulation_Calculator.this.nextdate2_ovulation);
-                    intent.putExtra("curr_date", Menstrual_Ovulation_Calculator.this.curr_date);
-                    Menstrual_Ovulation_Calculator.this.startActivity(intent);
+//                        return;
+//                    }
+//                    Intent intent = new Intent(Menstrual_Ovulation_Calculator.this, Menstrual_and_ovulation_Result.class);
+//                    intent.putExtra("nextdate_menstrual", Menstrual_Ovulation_Calculator.this.nextdate_menstrual);
+//                    intent.putExtra("nextdate1_ovulation", Menstrual_Ovulation_Calculator.this.nextdate1_ovulation);
+//                    intent.putExtra("nextdate2_ovulation", Menstrual_Ovulation_Calculator.this.nextdate2_ovulation);
+//                    intent.putExtra("curr_date", Menstrual_Ovulation_Calculator.this.curr_date);
+//                    Menstrual_Ovulation_Calculator.this.startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -385,75 +386,43 @@ public class Menstrual_Ovulation_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            Intent intent = new Intent(this, Menstrual_and_ovulation_Result.class);
-            intent.putExtra("nextdate_menstrual", this.nextdate_menstrual);
-            intent.putExtra("nextdate1_ovulation", this.nextdate1_ovulation);
-            intent.putExtra("nextdate2_ovulation", this.nextdate2_ovulation);
-            intent.putExtra("curr_date", this.curr_date);
-            startActivity(intent);
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                Intent intent = new Intent(Menstrual_Ovulation_Calculator.this, Menstrual_and_ovulation_Result.class);
+                intent.putExtra("nextdate_menstrual", Menstrual_Ovulation_Calculator.this.nextdate_menstrual);
+                intent.putExtra("nextdate1_ovulation", Menstrual_Ovulation_Calculator.this.nextdate1_ovulation);
+                intent.putExtra("nextdate2_ovulation", Menstrual_Ovulation_Calculator.this.nextdate2_ovulation);
+                intent.putExtra("curr_date", Menstrual_Ovulation_Calculator.this.curr_date);
+                startActivity(intent);
             }
-            Intent intent2 = new Intent(this, Menstrual_and_ovulation_Result.class);
-            intent2.putExtra("nextdate_menstrual", this.nextdate_menstrual);
-            intent2.putExtra("nextdate1_ovulation", this.nextdate1_ovulation);
-            intent2.putExtra("nextdate2_ovulation", this.nextdate2_ovulation);
-            intent2.putExtra("curr_date", this.curr_date);
-            startActivity(intent2);
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Intent intent = new Intent(Menstrual_Ovulation_Calculator.this, Menstrual_and_ovulation_Result.class);
-                    intent.putExtra("nextdate_menstrual", Menstrual_Ovulation_Calculator.this.nextdate_menstrual);
-                    intent.putExtra("nextdate1_ovulation", Menstrual_Ovulation_Calculator.this.nextdate1_ovulation);
-                    intent.putExtra("nextdate2_ovulation", Menstrual_Ovulation_Calculator.this.nextdate2_ovulation);
-                    intent.putExtra("curr_date", Menstrual_Ovulation_Calculator.this.curr_date);
-                    Menstrual_Ovulation_Calculator.this.startActivity(intent);
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            Intent intent = new Intent(this, Menstrual_and_ovulation_Result.class);
+//            intent.putExtra("nextdate_menstrual", this.nextdate_menstrual);
+//            intent.putExtra("nextdate1_ovulation", this.nextdate1_ovulation);
+//            intent.putExtra("nextdate2_ovulation", this.nextdate2_ovulation);
+//            intent.putExtra("curr_date", this.curr_date);
+//            startActivity(intent);
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            Intent intent2 = new Intent(this, Menstrual_and_ovulation_Result.class);
+//            intent2.putExtra("nextdate_menstrual", this.nextdate_menstrual);
+//            intent2.putExtra("nextdate1_ovulation", this.nextdate1_ovulation);
+//            intent2.putExtra("nextdate2_ovulation", this.nextdate2_ovulation);
+//            intent2.putExtra("curr_date", this.curr_date);
+//            startActivity(intent2);
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

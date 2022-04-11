@@ -16,6 +16,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -88,17 +89,17 @@ public class Body_Adiposity_Index_Result extends Activity {
         textView.setText(sb.toString());
         this.tv_whr_chart.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                int random = ((int) (Math.random() * 2.0d)) + 1;
-                PrintStream printStream = System.out;
-                StringBuilder sb = new StringBuilder();
-                sb.append("random_number==>");
-                sb.append(random);
-                printStream.println(sb.toString());
-                if (random == 2) {
+                //int random = ((int) (Math.random() * 2.0d)) + 1;
+                //PrintStream printStream = System.out;
+               // StringBuilder sb = new StringBuilder();
+               // sb.append("random_number==>");
+               // sb.append(random);
+               // printStream.println(sb.toString());
+               // if (random == 2) {
                     Body_Adiposity_Index_Result.this.showIntertitial();
-                    return;
-                }
-                Body_Adiposity_Index_Result.this.startActivity(new Intent(Body_Adiposity_Index_Result.this, Body_Adiposity_Index_Chart.class));
+               //     return;
+               // }
+                //Body_Adiposity_Index_Result.this.startActivity(new Intent(Body_Adiposity_Index_Result.this, Body_Adiposity_Index_Chart.class));
             }
         });
         this.iv_close.setOnClickListener(new OnClickListener() {
@@ -109,60 +110,28 @@ public class Body_Adiposity_Index_Result extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            startActivity(new Intent(this, Body_Adiposity_Index_Chart.class));
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                startActivity(new Intent(Body_Adiposity_Index_Result.this, Body_Adiposity_Index_Chart.class));
             }
-            startActivity(new Intent(this, Body_Adiposity_Index_Chart.class));
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Body_Adiposity_Index_Result.this.startActivity(new Intent(Body_Adiposity_Index_Result.this, Body_Adiposity_Index_Chart.class));
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            startActivity(new Intent(this, Body_Adiposity_Index_Chart.class));
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            startActivity(new Intent(this, Body_Adiposity_Index_Chart.class));
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 }

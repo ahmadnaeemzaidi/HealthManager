@@ -24,6 +24,7 @@ import com.huawei.hms.ads.AdListener;
 import com.huawei.hms.ads.AdParam;
 import com.inocreativeStudio.IncreaseHeightWorkout.R;
 import com.inocreativeStudio.IncreaseHeightWorkout.general.MyApplication;
+import com.inocreativeStudio.IncreaseHeightWorkout.utils.ClickAdd;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.GlobalFunction;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.SharedPreferenceManager;
 import com.inocreativeStudio.IncreaseHeightWorkout.utils.TypefaceManager;
@@ -132,17 +133,17 @@ public class Children_Height_Growth_Prediction_Calculator extends Activity {
                     Children_Height_Growth_Prediction_Calculator.this.inserted_fathers_height = Float.parseFloat(Children_Height_Growth_Prediction_Calculator.this.et_fathers_height.getText().toString());
                     Children_Height_Growth_Prediction_Calculator.this.mothers_height_unit = Children_Height_Growth_Prediction_Calculator.this.tv_heightunit_mother.getText().toString();
                     Children_Height_Growth_Prediction_Calculator.this.fathers_height_unit = Children_Height_Growth_Prediction_Calculator.this.tv_heightunit_father.getText().toString();
-                    int random = ((int) (Math.random() * 2.0d)) + 1;
-                    PrintStream printStream = System.out;
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("random_number==>");
-                    sb.append(random);
-                    printStream.println(sb.toString());
-                    if (random == 2) {
+                   // int random = ((int) (Math.random() * 2.0d)) + 1;
+                   // PrintStream printStream = System.out;
+                    //StringBuilder sb = new StringBuilder();
+                    //sb.append("random_number==>");
+                    //sb.append(random);
+                    //printStream.println(sb.toString());
+                    //if (random == 2) {
                         Children_Height_Growth_Prediction_Calculator.this.showIntertitial();
-                    } else {
-                        Children_Height_Growth_Prediction_Calculator.this.calculate();
-                    }
+                    //} else {
+                    //    Children_Height_Growth_Prediction_Calculator.this.calculate();
+                    //}
                 }
             }
         });
@@ -322,61 +323,29 @@ public class Children_Height_Growth_Prediction_Calculator extends Activity {
     }
 
     public void showIntertitial() {
-        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            calculate();
-        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
-            if (!MyApplication.interstitial.isLoading()) {
-                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                    public void onNoResponse() {
-                    }
-
-                    public void onResponseObtained() {
-                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    }
-                });
+        new MyApplication().showInterstitialAd(this, new ClickAdd() {
+            @Override
+            public void clickAdd() {
+                calculate();
             }
-            calculate();
-        } else {
-            MyApplication.interstitial.show();
-        }
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue() && MyApplication.interstitial != null && !MyApplication.interstitial.isLoaded() && !MyApplication.interstitial.isLoading()) {
-            ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                public void onNoResponse() {
-                }
-
-                public void onResponseObtained() {
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                }
-            });
-        }
-        if (!this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
-            MyApplication.interstitial.setAdListener(new AdListener() {
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                    Children_Height_Growth_Prediction_Calculator.this.calculate();
-                }
-
-                public void onAdFailed(int i) {
-                    super.onAdFailed(i);
-                    if (MyApplication.interstitial != null && !MyApplication.interstitial.isLoading()) {
-                        ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
-                            public void onNoResponse() {
-                            }
-
-                            public void onResponseObtained() {
-                                MyApplication.interstitial.loadAd(new AdParam.Builder().build());
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        });
+//        if (this.sharedPreferenceManager.get_Remove_Ad().booleanValue()) {
+//            calculate();
+//        } else if (MyApplication.interstitial == null || !MyApplication.interstitial.isLoaded()) {
+//            if (!MyApplication.interstitial.isLoading()) {
+//                ConnectionBuddy.getInstance().hasNetworkConnection(new NetworkRequestCheckListener() {
+//                    public void onNoResponse() {
+//                    }
+//
+//                    public void onResponseObtained() {
+//                        MyApplication.interstitial.loadAd(new AdParam.Builder().build());
+//                    }
+//                });
+//            }
+//            calculate();
+//        } else {
+//            MyApplication.interstitial.show();
+//        }
     }
 
     public void onBackPressed() {
