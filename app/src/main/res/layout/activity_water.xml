@@ -12,7 +12,7 @@ android:layout_width="match_parent"
 
     <fragment
         android:id="@+id/lommeregnerv2"
-        android:name="com.inocreativeStudio.IncreaseHeightWorkout.StatsActivity"
+        android:name="com.techgeeks.workout.StatsActivity"
         android:layout_width="match_parent"
         android:layout_height="200dp"></fragment>
 

@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221229213058:android:efb0aec1828cd666de5b9b",
+        "android_client_info": {
+          "package_name": "com.techgeeks.healthmanager.workout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221229213058-5nil75l6qg334v7te6uhufede4n36bct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQmmWO_q_bJ_hPGHmNpkITLy-QaH60fEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221229213058-5nil75l6qg334v7te6uhufede4n36bct.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

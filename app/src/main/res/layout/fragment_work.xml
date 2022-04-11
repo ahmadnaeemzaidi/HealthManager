@@ -11,7 +11,7 @@
 
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:name="com.inocreativeStudio.IncreaseHeightWorkout.fragment.Workout"
+        android:name="com.techgeeks.workout.fragment.Workout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lommeregnerv2">

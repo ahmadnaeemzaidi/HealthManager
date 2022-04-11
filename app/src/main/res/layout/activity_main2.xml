@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
 
-    <com.inocreativeStudio.IncreaseHeightWorkout.shashikant.calendar.SNPCalendarView
+    <com.techgeeks.workout.shashikant.calendar.SNPCalendarView
         android:id="@+id/mFCalendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

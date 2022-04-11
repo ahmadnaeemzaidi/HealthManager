@@ -7,7 +7,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.it744.healthmanager"
+        applicationId "com.techgeeks.healthmanager.workout"
         minSdkVersion 19
         targetSdkVersion 30
         // Huawei

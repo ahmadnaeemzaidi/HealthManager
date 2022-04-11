@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.inocreativeStudio.IncreaseHeightWorkout.shashikant.calendar.ExpandableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.techgeeks.workout.shashikant.calendar.ExpandableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView1"
@@ -160,7 +160,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.inocreativeStudio.IncreaseHeightWorkout.shashikant.calendar.ExpandableHeightGridView
+        <com.techgeeks.workout.shashikant.calendar.ExpandableHeightGridView
             android:id="@+id/gridview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,4 +171,4 @@
             android:numColumns="7"
             android:stretchMode="columnWidth" />
     </RelativeLayout>
-</com.inocreativeStudio.IncreaseHeightWorkout.shashikant.calendar.ExpandableScrollView>
+</com.techgeeks.workout.shashikant.calendar.ExpandableScrollView>

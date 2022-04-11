@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.inocreativeStudio.IncreaseHeightWorkout.WalkandStep.fragments.DailyReportFragment1">
+    tools:context="com.techgeeks.workout.WalkandStep.fragments.DailyReportFragment1">
 
 
 

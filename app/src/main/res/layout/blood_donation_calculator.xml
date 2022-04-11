@@ -96,7 +96,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="@dimen/textsize_14" />
 
-            <com.inocreativeStudio.IncreaseHeightWorkout.shashikant.calendar.SNPCalendarView
+            <com.techgeeks.workout.shashikant.calendar.SNPCalendarView
                 android:id="@+id/mFCalendarView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
